@@ -13,6 +13,8 @@ A hands-on notebook for building the core components of a Large Language Model f
 | Chapter 3 | 现代大模型骨架 | RMSNorm、SwiGLU、残差连接、Pre-Norm |
 | Chapter 4 | 预训练逻辑 | Weight Tying、交叉熵 Loss、AdamW、梯度裁剪 |
 | Chapter 5 | KV Cache | KV Cache的主要原理 |
+
+
 最终组装出一个 ~100K 参数的 MiniLLM，并完成完整的训练循环。
 
 ---
