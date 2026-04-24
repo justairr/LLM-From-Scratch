@@ -23,8 +23,8 @@ A hands-on notebook for building the core components of a Large Language Model f
 ```bash
 conda create -n lfs python=3.10
 conda activate lfs
-pip install torch --index-url https://download.pytorch.org/whl/cpu
-pip install jupyter
+pip install torch --index-url https://download.pytorch.org/whl/cpu # 如果你有gpu最好用gpu
+pip install ipykernel
 ```
 
 ## 快速开始
