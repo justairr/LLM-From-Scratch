@@ -15,7 +15,7 @@ sys.path.insert(0, os.path.dirname(__file__))
 
 import strategy
 import engine
-
+from engine import _cache_len
 
 def main():
     parser = argparse.ArgumentParser()
@@ -29,8 +29,27 @@ def main():
 
     budget = args.budget if args.budget is not None else strategy.MAX_BUDGET
 
+    def safe_compress_wrapper(pkv, current_budget, step):
+        # 1. 调用学生自己写的压缩函数
+        compressed_kv = strategy.compress(pkv, current_budget, step)
+        
+        # 2. 调用 engine 原生的长度计算函数
+        try:
+            returned_len = _cache_len(compressed_kv)
+        except Exception:
+            print("\n🚨 [错误] 返回的 KV Cache 格式被破坏，无法解析长度！请确保返回的格式与输入一致。")
+            sys.exit(1)
+
+        # 3. 严格检查是否超出 budget
+        if returned_len > current_budget:
+            print(f"\n🚨 [违规拦截] 压缩后的 KV 长度 ({returned_len}) 超过了当前预算 ({current_budget})！")
+            print("❌ 你不能直接返回未压缩的数据，请修改 strategy.py。")
+            sys.exit(1)  # 直接终止本地运行
+            
+        return compressed_kv
+
     engine.evaluate(
-        compress_fn   = strategy.compress,
+        compress_fn   = safe_compress_wrapper,
         max_budget    = budget,
         strategy_name = getattr(strategy, 'STRATEGY_NAME', 'MyStrategy'),
         n_docs        = 5 if args.quick else None,
