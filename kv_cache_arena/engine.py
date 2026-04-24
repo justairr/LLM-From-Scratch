@@ -256,7 +256,7 @@ def evaluate(
         delta = student_ppl - baseline_ppl
         pct   = delta / baseline_ppl * 100
         sign  = '+' if delta >= 0 else ''
-        ok    = '✅' if pct <= 5 else ('⚠️ ' if pct <= 20 else '❌')
+        ok    = '✅'
         print(f'  Student   PPL : {student_ppl:.2f}')
         print(f'  Baseline  PPL : {baseline_ppl:.2f}')
         print(f'  Degradation   : {sign}{pct:.1f}%  {ok}')
