@@ -1,4 +1,4 @@
-# KV Cache Arena — 学生实验
+# KV Cache Arena 
 
 ## 实验目标
 
@@ -27,10 +27,14 @@ Perplexity 越低 = 压缩带来的质量损失越小。
 # 进入实验目录
 cd llm-experiments/kv_cache_arena
 
-# 快速验证（5 篇文章，约 1 分钟）
+# 安装最小运行环境（无 GPU 推荐先装 CPU 版 PyTorch）
+pip install torch --index-url https://download.pytorch.org/whl/cpu
+pip install -r requirements.txt
+
+# 快速验证
 python run_eval.py --quick
 
-# 完整评估（20 篇，含无压缩基线对比，约 4 分钟）
+# 完整评估
 python run_eval.py
 
 # 只跑自己的策略，不跑基线（节省一半时间）
@@ -39,6 +43,9 @@ python run_eval.py --no-baseline
 # 临时修改 budget（不改 strategy.py）
 python run_eval.py --budget 64
 ```
+
+如果你已经装好了合适版本的 GPU 版 PyTorch，可以跳过上面的 CPU 安装命令，只执行 `pip install -r requirements.txt`。
+未安装 `datasets` 时，评测会自动退回到内置语料，仍然可以运行，但结果不再是标准 WikiText-2 测试集分数。
 
 ---
 

@@ -19,7 +19,7 @@ A hands-on notebook for building the core components of a Large Language Model f
 
 ---
 
-在完成本实验后，你应该对模型结构及KV Cache有相关了解，此时请步入 `/kv_cache_areana` 体验kv cache压缩的内容。
+在完成本实验后，你应该对模型结构及KV Cache有相关了解，此时请步入 `/kv_cache_arena` 体验 kv cache 压缩的内容。
 在这里，我们将对一个真实模型`gpt-2`进行kv cache压缩，并尝试使用不同的压缩方法。
 
 ## 环境配置
@@ -31,6 +31,9 @@ conda activate lfs
 pip install torch --index-url https://download.pytorch.org/whl/cpu # 如果你有gpu最好用gpu
 pip install ipykernel
 ```
+
+`kv_cache_arena` 另外提供了一个单独的最小运行依赖文件：[`kv_cache_arena/requirements.txt`](kv_cache_arena/requirements.txt)。
+如果你没有 GPU，建议先安装 CPU 版 PyTorch，再进入该目录执行 `pip install -r requirements.txt`。
 
 ## 快速开始
 
@@ -65,12 +68,16 @@ Perplexity 越低 = 压缩带来的质量损失越小。
 
 ```bash
 # 进入实验目录
-cd /kv_cache_arena
+cd kv_cache_arena
 
-# 快速验证（5 篇文章，约 1 分钟）
+# 安装最小运行环境（无 GPU 推荐先装 CPU 版 PyTorch）
+pip install torch --index-url https://download.pytorch.org/whl/cpu
+pip install -r requirements.txt
+
+# 快速验证
 python run_eval.py --quick
 
-# 完整评估（20 篇，含无压缩基线对比，约 4 分钟）
+# 完整评估
 python run_eval.py
 
 # 只跑自己的策略，不跑基线（节省一半时间）
@@ -79,6 +86,9 @@ python run_eval.py --no-baseline
 # 临时修改 budget（不改 strategy.py）
 python run_eval.py --budget 64
 ```
+
+如果你已经装好了合适版本的 GPU 版 PyTorch，可以跳过上面的 CPU 安装命令，只执行 `pip install -r requirements.txt`。
+未安装 `datasets` 时，评测会自动退回到内置语料，仍然可以运行，但结果不再是标准 WikiText-2 测试集分数。
 
 ---
 
@@ -143,98 +153,5 @@ def compress(past_key_values, max_budget, step):
 
 
 # 写在后面
-本项目用于 HUST 自然语言处理课程实验，旨在一步步熟悉大模型本身。部分逻辑对于不熟悉python的同学可能较为复杂，所以在`validation_files/llm-from-scratch-answer.ipynb`中提供了一组参考解。
-
+本项目用于 HUST 自然语言处理课程实验，旨在一步步熟悉大模型本身。
 项目本身可能有各种BUG, 也欢迎大家提出一些其他的实验设计建议。
-
-# requirements
-annotated-doc==0.0.4
-anyio==4.13.0
-asttokens==3.0.1
-certifi==2026.4.22
-click==8.3.3
-comm==0.2.3
-contourpy==1.3.2
-cuda-bindings==13.2.0
-cuda-pathfinder==1.5.4
-cuda-toolkit==13.0.2
-cycler==0.12.1
-debugpy==1.8.20
-decorator==5.2.1
-exceptiongroup==1.3.1
-executing==2.2.1
-filelock==3.29.0
-fonttools==4.62.1
-fsspec==2026.3.0
-h11==0.16.0
-hf-xet==1.4.3
-httpcore==1.0.9
-httpx==0.28.1
-huggingface_hub==1.12.2
-idna==3.13
-ipykernel==7.2.0
-ipython==8.39.0
-jedi==0.19.2
-Jinja2==3.1.6
-jupyter_client==8.8.0
-jupyter_core==5.9.1
-kiwisolver==1.5.0
-markdown-it-py==4.0.0
-MarkupSafe==3.0.3
-matplotlib==3.10.9
-matplotlib-inline==0.2.1
-mdurl==0.1.2
-mpmath==1.3.0
-nest-asyncio==1.6.0
-networkx==3.4.2
-numpy==2.2.6
-nvidia-cublas==13.1.0.3
-nvidia-cuda-cupti==13.0.85
-nvidia-cuda-nvrtc==13.0.88
-nvidia-cuda-runtime==13.0.96
-nvidia-cudnn-cu13==9.19.0.56
-nvidia-cufft==12.0.0.61
-nvidia-cufile==1.15.1.6
-nvidia-curand==10.4.0.35
-nvidia-cusolver==12.0.4.66
-nvidia-cusparse==12.6.3.3
-nvidia-cusparselt-cu13==0.8.0
-nvidia-nccl-cu13==2.28.9
-nvidia-nvjitlink==13.0.88
-nvidia-nvshmem-cu13==3.4.5
-nvidia-nvtx==13.0.85
-packaging==26.0
-pandas==2.3.3
-parso==0.8.6
-pexpect==4.9.0
-pillow==12.2.0
-platformdirs==4.9.6
-prompt_toolkit==3.0.52
-psutil==7.2.2
-ptyprocess==0.7.0
-pure_eval==0.2.3
-Pygments==2.20.0
-pyparsing==3.3.2
-python-dateutil==2.9.0.post0
-pytz==2026.1.post1
-PyYAML==6.0.3
-pyzmq==27.1.0
-regex==2026.4.4
-rich==15.0.0
-safetensors==0.7.0
-seaborn==0.13.2
-shellingham==1.5.4
-six==1.17.0
-stack-data==0.6.3
-sympy==1.14.0
-tokenizers==0.22.2
-torch==2.11.0
-tornado==6.5.5
-tqdm==4.67.3
-traitlets==5.14.3
-transformers==5.7.0
-triton==3.6.0
-typer==0.25.0
-typing_extensions==4.15.0
-tzdata==2026.2
-wcwidth==0.6.0
