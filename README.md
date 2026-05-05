@@ -156,4 +156,4 @@ def compress(past_key_values, max_budget, step):
 本项目用于 HUST 自然语言处理课程实验，旨在一步步熟悉大模型本身。
 项目本身可能有各种BUG, 也欢迎大家提出一些其他的实验设计建议。
 
-Thanks for [@Seas0](https://github.com/Seas0) for jailbreak testing.
+Thanks for [@Seas0](https://github.com/Seas0) for jail-breaking test.
